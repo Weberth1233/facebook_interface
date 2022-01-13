@@ -1,5 +1,6 @@
 import 'package:facebook_interface/components/button_circle.dart';
 import 'package:facebook_interface/components/post_area.dart';
+import 'package:facebook_interface/components/story_area.dart';
 import 'package:facebook_interface/data/datas.dart';
 import 'package:facebook_interface/utils/colors_pattern.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,15 @@ class Home extends StatelessWidget {
         SliverToBoxAdapter(
           child: PostArea(
             user: onUser,
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+          sliver: SliverToBoxAdapter(
+            child: StoryArea(
+              storys: estorias,
+              user: onUser,
+            ),
           ),
         ),
         SliverToBoxAdapter(
