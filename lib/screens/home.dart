@@ -1,7 +1,9 @@
 import 'package:facebook_interface/components/button_circle.dart';
 import 'package:facebook_interface/components/post_area.dart';
+import 'package:facebook_interface/components/post_card.dart';
 import 'package:facebook_interface/components/story_area.dart';
 import 'package:facebook_interface/data/datas.dart';
+import 'package:facebook_interface/models/models.dart';
 import 'package:facebook_interface/utils/colors_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -55,11 +57,11 @@ class Home extends StatelessWidget {
             ),
           ),
         ),
-        SliverToBoxAdapter(
-          child: Container(
-            color: Colors.green,
-            height: 2000,
-          ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, value) {
+            Post post = postagens[value];
+            return PostCard(post: post);
+          }, childCount: postagens.length),
         )
       ],
     ));
