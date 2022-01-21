@@ -6,11 +6,13 @@ class NavigationTabs extends StatelessWidget {
   final int selectedTab;
   //Passando função que vai receber o indice do pagina selecionada
   final Function(int) onTap;
+  final bool indicatorDown;
 
   const NavigationTabs(
       {required this.icons,
       required this.selectedTab,
       required this.onTap,
+      this.indicatorDown = false,
       Key? key})
       : super(key: key);
 
@@ -19,14 +21,20 @@ class NavigationTabs extends StatelessWidget {
     return TabBar(
       onTap: onTap,
       //Modificando indicador para que a borda fique em cima do icone
-      indicator: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: ColorPattern.blueLight,
-            width: 3,
-          ),
-        ),
-      ),
+      indicator: BoxDecoration(
+          border: indicatorDown == false
+              ? const Border(
+                  top: BorderSide(
+                    color: ColorPattern.blueLight,
+                    width: 3,
+                  ),
+                )
+              : const Border(
+                  bottom: BorderSide(
+                    color: ColorPattern.blueLight,
+                    width: 3,
+                  ),
+                )),
       //O icons.asMap().map(index, icon) - função vai percorrer a lista de icones
       //e retornar seu indice utilizado para mudar a cor do icone selecionado através da
       //da variavel selectedTab que possui o indice da pagina selecionado
