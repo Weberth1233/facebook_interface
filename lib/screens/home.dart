@@ -1,4 +1,5 @@
 import 'package:facebook_interface/components/button_circle.dart';
+import 'package:facebook_interface/components/contact_list.dart';
 import 'package:facebook_interface/components/post_area.dart';
 import 'package:facebook_interface/components/post_card.dart';
 import 'package:facebook_interface/utils/resposive.dart';
@@ -90,30 +91,48 @@ class HomeDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-          sliver: SliverToBoxAdapter(
-            child: StoryArea(
-              storys: estorias,
-              user: onUser,
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: PostArea(
-            user: onUser,
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, value) {
-            Post post = postagens[value];
-            return PostCard(post: post);
-          }, childCount: postagens.length),
-        )
+    return Row(
+      children: [
+        Flexible(
+            flex: 2,
+            child: Container(
+              color: Colors.red,
+            )),
+        const Spacer(),
+        Flexible(
+            flex: 5,
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  sliver: SliverToBoxAdapter(
+                    child: StoryArea(
+                      storys: estorias,
+                      user: onUser,
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: PostArea(
+                    user: onUser,
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate((context, value) {
+                    Post post = postagens[value];
+                    return PostCard(post: post);
+                  }, childCount: postagens.length),
+                )
+              ],
+            )),
+        const Spacer(),
+        Flexible(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: ContactList(users: usuariosOnline),
+            ))
       ],
-    ));
+    );
   }
 }

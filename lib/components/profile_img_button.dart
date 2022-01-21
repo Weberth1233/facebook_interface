@@ -23,10 +23,12 @@ class ProfileImgButton extends StatelessWidget {
           const SizedBox(
             width: 4,
           ),
-          Text(
-            user.name,
-            style: const TextStyle(fontSize: 16),
-            overflow: TextOverflow.ellipsis,
+          Flexible(
+            child: Text(
+              user.name,
+              style: const TextStyle(fontSize: 16),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
