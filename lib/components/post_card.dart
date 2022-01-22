@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook_interface/components/profile_img.dart';
 import 'package:facebook_interface/models/models.dart';
 import 'package:facebook_interface/utils/colors_pattern.dart';
+import 'package:facebook_interface/utils/resposive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -13,60 +14,74 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PostHeader(post: post),
-                Text(post.description),
-              ],
+    bool isDesktop = Responsive.isDesktop(context);
+    return Card(
+      margin: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: isDesktop ? 5 : 0,
+      ),
+      elevation: isDesktop ? 1 : 0,
+      shape: isDesktop
+          ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+          : null,
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PostHeader(post: post),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(post.description),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: CachedNetworkImage(
-              imageUrl: post.imgUrl,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: CachedNetworkImage(
+                imageUrl: post.imgUrl,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              children: [
-                PostStatistics(
-                  post: post,
-                ),
-                const Divider(
-                  thickness: 1.5,
-                ),
-                Row(
-                  children: [
-                    ButtonArea(
-                        icon: Icon(LineIcons.thumbsUpAlt,
-                            color: Colors.grey[700]),
-                        text: "Curtir",
-                        ontap: () {}),
-                    ButtonArea(
-                        icon: Icon(LineIcons.alternateCommentAlt,
-                            color: Colors.grey[700]),
-                        text: "Comentar",
-                        ontap: () {}),
-                    ButtonArea(
-                        icon: Icon(LineIcons.share, color: Colors.grey[700]),
-                        text: "Compartilhar",
-                        ontap: () {}),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  PostStatistics(
+                    post: post,
+                  ),
+                  const Divider(
+                    thickness: 1.5,
+                  ),
+                  Row(
+                    children: [
+                      ButtonArea(
+                          icon: Icon(LineIcons.thumbsUpAlt,
+                              color: Colors.grey[700]),
+                          text: "Curtir",
+                          ontap: () {}),
+                      ButtonArea(
+                          icon: Icon(LineIcons.alternateCommentAlt,
+                              color: Colors.grey[700]),
+                          text: "Comentar",
+                          ontap: () {}),
+                      ButtonArea(
+                          icon: Icon(LineIcons.share, color: Colors.grey[700]),
+                          text: "Compartilhar",
+                          ontap: () {}),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -170,7 +185,8 @@ class PostHeader extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text("${post.timeAgo} - "),
+                  Text("${post.timeAgo} . ",
+                      style: const TextStyle(fontSize: 12)),
                   Icon(
                     Icons.public,
                     size: 12,

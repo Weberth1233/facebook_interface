@@ -1,5 +1,6 @@
 import 'package:facebook_interface/components/button_circle.dart';
 import 'package:facebook_interface/components/contact_list.dart';
+import 'package:facebook_interface/components/options_list.dart';
 import 'package:facebook_interface/components/post_area.dart';
 import 'package:facebook_interface/components/post_card.dart';
 import 'package:facebook_interface/utils/resposive.dart';
@@ -18,21 +19,40 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final TrackingScrollController _scrollController = TrackingScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Responsive(mobile: HomeMobile(), desktop: HomeDesktop()),
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Responsive(
+            mobile: HomeMobile(
+              scrollController: _scrollController,
+            ),
+            desktop: HomeDesktop(scrollController: _scrollController)),
+      ),
     );
   }
 }
 
 class HomeMobile extends StatelessWidget {
-  const HomeMobile({Key? key}) : super(key: key);
+  final TrackingScrollController scrollController;
+
+  const HomeMobile({required this.scrollController, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(
+      controller: scrollController,
       slivers: [
         SliverAppBar(
           backgroundColor: Colors.white,
@@ -87,21 +107,25 @@ class HomeMobile extends StatelessWidget {
 }
 
 class HomeDesktop extends StatelessWidget {
-  const HomeDesktop({Key? key}) : super(key: key);
+  final TrackingScrollController scrollController;
+  const HomeDesktop({required this.scrollController, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Flexible(
-            flex: 2,
-            child: Container(
-              color: Colors.red,
-            )),
+          flex: 2,
+          child: OptionsList(
+            user: onUser,
+          ),
+        ),
         const Spacer(),
         Flexible(
             flex: 5,
             child: CustomScrollView(
+              controller: scrollController,
               slivers: [
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
